@@ -20,13 +20,13 @@ jobs:
     - run: ncu-config --global set username ${{ secrets.USER_NAME }}
     - run: ncu-ci walk pr --stats=true --markdown $PWD/results.md
     - run: |
-        body=`cat results.md`
-        title_date=$(date + '%Y-%m-%d')
+        body=`cat results.md | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'`
+        title_date=$(date +%Y-%m-%d)
         curl --request POST \
         --url https://api.github.com/repos/${{ github.repository }}/issues \
         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
         --header 'content-type: application/json' \
         --data '{
           "title": "CI Relability ${title_date}",
-          "body": "${body&Q}"
+          "body": "${body}"
           }'
