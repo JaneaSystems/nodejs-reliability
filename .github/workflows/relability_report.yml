@@ -16,8 +16,8 @@ jobs:
         node-version: 12
     - run: npm i -g node-core-utils
     - run: ncu-config --global set jenkins_token ${{ secrets.JENKINS_TOKEN }}
-    - run: ncu-config --global set token ${{ secrets.GITHUB_TOKEN }}
-    - run: ncu-config --global set username Bearer
+    - run: ncu-config --global set token ${{ secrets.USER_TOKEN }}
+    - run: ncu-config --global set username ${{ secrets.USER_NAME }}
     - run: ncu-ci walk pr --stats=true --markdown results.md
     - run: |
         body=`cat results.md`
