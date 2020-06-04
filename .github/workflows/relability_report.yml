@@ -16,11 +16,20 @@ jobs:
         node-version: 12
     - run: npm i -g node-core-utils
     - run: ncu-config --global set jenkins_token ${{ secrets.JENKINS_TOKEN }}
+    - run: |
+        echo '{
+          "username": "github_workflow",
+          "token": ${GITHUB_TOKEN}
+        }' > ~/.ncurc
     - run: ncu-ci walk pr --stats=true --markdown results.md
     - run: |
         body=`cat results.md`
         title_date=$(date + '%Y-%m-%d')
-        curl -u $GITHUB_TOKEN:x-oauth-basic https://api.github.com/repos/$GITHUB_REPOSITORY/issues -d '{
-          "title": "CI Relability ${date}",
-          "body": "${body@Q}"
-        }' 
+        curl --request POST \
+        --url https://api.github.com/repos/${{ github.repository }}/issues \
+        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        --header 'content-type: application/json' \
+        --data '{
+          "title": "CI Relability ${title_date}",
+          "body": "${body&Q}"
+          }'
