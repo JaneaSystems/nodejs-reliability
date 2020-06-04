@@ -16,11 +16,8 @@ jobs:
         node-version: 12
     - run: npm i -g node-core-utils
     - run: ncu-config --global set jenkins_token ${{ secrets.JENKINS_TOKEN }}
-    - run: |
-        echo '{
-          "username": "github_workflow",
-          "token": ${GITHUB_TOKEN}
-        }' > ~/.ncurc
+    - run: ncu-config --global set token ${{ secrets.GITHUB_TOKEN }}
+    - run: ncu-config --gloabl set username Bearer
     - run: ncu-ci walk pr --stats=true --markdown results.md
     - run: |
         body=`cat results.md`
