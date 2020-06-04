@@ -18,7 +18,7 @@ jobs:
     - run: ncu-config --global set jenkins_token ${{ secrets.JENKINS_TOKEN }}
     - run: ncu-config --global set token ${{ secrets.USER_TOKEN }}
     - run: ncu-config --global set username ${{ secrets.USER_NAME }}
-    - run: ncu-ci walk pr --stats=true --markdown results.md
+    - run: ncu-ci walk pr --stats=true --markdown .\results.md
     - run: |
         body=`cat results.md`
         title_date=$(date + '%Y-%m-%d')
