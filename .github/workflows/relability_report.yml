@@ -4,8 +4,8 @@
 # events but only for the master branch
 
 on:
- schedule:
-   - cron: '0 0 * * *'
+  schedule:
+  - cron: '0 0 * * *'
  
 jobs:
   create-report:
